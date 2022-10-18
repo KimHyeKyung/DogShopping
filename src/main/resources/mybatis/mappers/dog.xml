@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosta.dog.dao.DogDAO">
+	<!-- application.properties에 mybatis.type-aliases-package=com.kosta.dog.bean로 설정해줘서 resultType="dog"라고 작성해도 된다. -->
+	<select id="selectDogList" resultType="dog">
+	<![CDATA[
+		SELECT * FROM dog
+	]]>
+	</select>
+	
+	<select id="selectDog" parameterType="Integer" resultType="dog">
+	<![CDATA[
+		SELECT * FROM dog
+		where id = #{id}
+	]]>
+	</select>
+	
+	<insert id="insertDog" parameterType="dog">
+	<![CDATA[
+		insert into dog(id, kind, price, image, country, height, weight, content, readcount)
+		values(dog_seq.nextval, #{kind}, #{price}, #{image}, #{country}, #{height}, #{weight}, #{content}, 0)
+	]]>
+	</insert>
+	
+</mapper>
