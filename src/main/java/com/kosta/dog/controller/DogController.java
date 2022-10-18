@@ -75,6 +75,8 @@ public class DogController {
 				file.transferTo(destFile);
 				dog.setImage(file.getOriginalFilename());//파일의 이름을 넣어주기위해 따로 설정
 				mav.setViewName("redirect:/");
+			}else {
+				
 			}
 			dogService.dogRegist(dog);			
 		} catch (Exception e) {
