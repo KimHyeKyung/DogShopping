@@ -1,15 +1,21 @@
 package com.kosta.dog.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -83,6 +89,26 @@ public class DogController {
 			e.printStackTrace();
 		}
 		return mav;
-		
 	}
+	
+	//이미지 파일 화면에 가져오기
+	@GetMapping("/images/{filename}")
+	public void viewImages(@PathVariable String filename, HttpServletResponse response) {
+		String path = servletContext.getRealPath("/images/");
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(path + filename);
+			OutputStream out = response.getOutputStream();
+			FileCopyUtils.copy(fis, out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(fis != null) {
+				try {
+					fis.close();
+				} catch (Exception e) {} 
+			}
+		}
+	}
+	
 }
